@@ -1,0 +1,25 @@
+# Dependencies are vendored under src/vendor (no build step) — nothing to install.
+node_modules/
+package-lock.json
+
+# Never commit a CV or a key. Both live outside the repo by design:
+# CVs stay on your machine, keys live in chrome.storage.local.
+*.pdf
+*.docx
+*cv*.txt
+*resume*.txt
+.env
+.env.*
+secrets.json
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+
+# Packaged builds
+*.zip
+*.crx
+*.pem

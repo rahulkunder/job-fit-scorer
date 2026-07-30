@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Job Fit Scorer</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Job Fit Scorer</h1>
+      <button id="openDashboard" class="link" type="button">History →</button>
+    </header>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab is-active" data-tab="profiles" role="tab" aria-selected="true">Profiles</button>
+      <button class="tab" data-tab="settings" role="tab" aria-selected="false">Settings</button>
+    </nav>
+
+    <!-- ------------------------------ Profiles ------------------------------ -->
+    <section id="tab-profiles" class="panel" role="tabpanel">
+      <label class="field">
+        <span>Score jobs as</span>
+        <select id="activeProfile"></select>
+      </label>
+
+      <div class="list-head">
+        <span>Profiles</span>
+        <button id="newProfile" class="ghost" type="button">+ New</button>
+      </div>
+      <ul id="profileList" class="profiles"></ul>
+      <p id="emptyProfiles" class="empty" hidden>
+        No profiles yet. Add one, paste your CV, and generate a Fit Profile.
+      </p>
+
+      <form id="editor" class="editor" hidden>
+        <label class="field">
+          <span>Name</span>
+          <input id="profileName" type="text" placeholder="e.g. Alex — product roles" required />
+        </label>
+
+        <label class="field">
+          <span>CV text</span>
+          <textarea id="profileCv" rows="7" placeholder="Paste your full CV here…" required></textarea>
+        </label>
+
+        <div class="file-row">
+          <input id="cvFile" type="file" accept=".pdf,.txt,.md,.markdown,application/pdf,text/plain" hidden />
+          <button id="cvFileBtn" class="ghost" type="button">Upload PDF / TXT</button>
+          <span class="hint" id="cvChars">0 characters</span>
+        </div>
+
+        <label class="check" id="sendPdfRow" hidden>
+          <input id="sendPdf" type="checkbox" />
+          <span>Send the original PDF to the model <em id="sendPdfWhy"></em></span>
+        </label>
+
+        <div id="fitSummary" class="fit-summary" hidden></div>
+
+        <div class="row">
+          <button id="generateFit" class="ghost" type="button">Generate Fit Profile</button>
+          <button id="saveProfile" class="primary" type="submit">Save</button>
+          <button id="cancelEdit" class="ghost" type="button">Cancel</button>
+        </div>
+        <p id="editorStatus" class="status" role="status"></p>
+      </form>
+    </section>
+
+    <!-- ------------------------------ Settings ------------------------------ -->
+    <section id="tab-settings" class="panel" role="tabpanel" hidden>
+      <label class="field">
+        <span>AI provider</span>
+        <select id="provider"></select>
+      </label>
+
+      <label class="field">
+        <span>API key <a id="keyLink" href="#" target="_blank" rel="noreferrer">get one</a></span>
+        <input id="apiKey" type="password" placeholder="Paste API key" autocomplete="off" />
+      </label>
+
+      <details class="advanced" id="advanced">
+        <summary>Advanced</summary>
+
+        <datalist id="modelOptions"></datalist>
+
+        <label class="field">
+          <span>
+            Scoring model
+            <button id="refreshModels" class="linkish" type="button">Load available</button>
+          </span>
+          <input id="scoringModel" type="text" list="modelOptions" placeholder="provider default" />
+        </label>
+
+        <label class="field">
+          <span>Fit-profile model</span>
+          <input id="profileModel" type="text" list="modelOptions" placeholder="provider default" />
+        </label>
+        <p id="modelHint" class="hint"></p>
+
+        <div class="grid-2">
+          <label class="field">
+            <span>Max output tokens</span>
+            <input id="maxOutputTokens" type="number" min="400" max="16000" step="100" />
+          </label>
+          <label class="field">
+            <span>Requests / min</span>
+            <input id="rpm" type="number" min="0" max="600" step="1" placeholder="auto" />
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Max concurrent calls</span>
+          <input id="concurrency" type="number" min="1" max="8" step="1" />
+        </label>
+      </details>
+
+      <label class="check">
+        <input id="autoScore" type="checkbox" />
+        <span>Score job pages automatically</span>
+      </label>
+      <label class="check">
+        <input id="listingDots" type="checkbox" />
+        <span>Show score dots on search results (cached only — free)</span>
+      </label>
+      <label class="check">
+        <input id="quickScore" type="checkbox" />
+        <span>Also quick-score uncached results <em>(uses API calls)</em></span>
+      </label>
+
+      <div class="row">
+        <button id="saveSettings" class="primary" type="button">Save settings</button>
+        <button id="testConnection" class="ghost" type="button">Test</button>
+      </div>
+      <p id="settingsStatus" class="status" role="status"></p>
+
+      <div class="site-toggle">
+        <span id="siteName" class="hint"></span>
+        <button id="toggleSite" class="ghost" type="button" hidden></button>
+      </div>
+      <p class="hint">
+        Keys are stored in <code>chrome.storage.local</code> on this device only, and are sent
+        directly to the provider you choose.
+      </p>
+    </section>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

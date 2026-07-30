@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Job Fit Scorer — History</title>
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Scored jobs</h1>
+      <label class="inline">
+        <span>Profile</span>
+        <select id="profile"></select>
+      </label>
+      <div class="spacer"></div>
+      <button id="exportCsv" type="button">Export CSV</button>
+      <button id="clearAll" class="danger" type="button">Clear history</button>
+    </header>
+
+    <section class="stats" id="stats"></section>
+
+    <section class="filters">
+      <input id="search" type="search" placeholder="Search title, company, reasoning…" />
+      <select id="category">
+        <option value="">All categories</option>
+      </select>
+      <select id="recommendation">
+        <option value="">All recommendations</option>
+        <option>Apply</option>
+        <option>Maybe</option>
+        <option>Skip</option>
+      </select>
+      <select id="status">
+        <option value="">Any status</option>
+        <option value="none">Not tracked</option>
+        <option value="applied">Applied</option>
+        <option value="interviewing">Interviewing</option>
+        <option value="rejected">Rejected</option>
+        <option value="archived">Archived</option>
+      </select>
+      <label class="inline">
+        <input id="hideQuick" type="checkbox" />
+        <span>Full scores only</span>
+      </label>
+    </section>
+
+    <div class="table-wrap">
+      <table id="table">
+        <thead>
+          <tr>
+            <th data-sort="savedAt" class="sortable">Scored</th>
+            <th data-sort="title" class="sortable">Job</th>
+            <th data-sort="score" class="sortable">Score</th>
+            <th data-sort="category" class="sortable">Category</th>
+            <th>Reasoning</th>
+            <th data-sort="recommendation" class="sortable">Rec.</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <p id="empty" class="empty" hidden>Nothing scored yet for this profile.</p>
+    </div>
+
+    <footer id="footer"></footer>
+
+    <script type="module" src="dashboard.js"></script>
+  </body>
+</html>
